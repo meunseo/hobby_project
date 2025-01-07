@@ -1,0 +1,19 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+/target/
+
+# IntelliJ IDEA
+.idea/
+
+# Eclipse
+.project
+.classpath
+
+# OS generated files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.kitri.springboothobby.dao.MembershipsDao">
+	<select id="viewMyMembershipList" resultType="MembershipsDto">
+    <![CDATA[
+    SELECT a_matchingmember.mm_num, a_matchingmember.id, a_hobbyboard.title, a_hobbyboard.meetingplace, a_hobbyboard.meetingtime
+	FROM a_matchingmember, a_hobbyboard
+	WHERE a_matchingmember.hb_num = a_hobbyboard.hb_num
+	AND a_matchingmember.activestate = '1'
+	AND a_matchingmember.id = #{id}
+	]]>
+	</select>
+	<insert id="unjoinupdate" parameterType="UnjoinDto">
+	<![CDATA[
+	INSERT INTO a_deletememberships (dm_num, id, hb_num, activestate)  
+	SELECT 'DM'||deletenum.nextval, a_matchingmember.id, a_matchingmember.hb_num, a_matchingmember.activestate
+	FROM a_matchingmember
+	WHERE id = #{id} AND mm_num = #{mm_num}
+	]]>
+	</insert>
+	<update id="unjoindelete">
+	<![CDATA[
+	UPDATE a_matchingmember
+	SET activestate = 0
+	WHERE id = #{id}
+	AND mm_num = #{mm_num}
+	]]>
+	</update>
+</mapper>

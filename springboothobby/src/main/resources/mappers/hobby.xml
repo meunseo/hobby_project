@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.kitri.springboothobby.dao.HobbyDao">
+	<select id="viewHobbyCategory" resultType="HobbyDto">
+    <![CDATA[
+    SELECT h_num, h_name
+	FROM a_hobby
+	]]>
+	</select>
+	<select id="searchbyname" resultType="HobbyBoardDto">
+    <![CDATA[
+    SELECT a_hobbyboard.hb_num, a_hobby.h_name, a_member.nickname, a_hobbyboard.title, a_hobbyboard.content, a_hobbyboard.meetingplace, a_hobbyboard.meetingtime
+	FROM a_hobbyboard, a_hobby, a_member
+	WHERE a_hobby.h_num = a_hobbyboard.h_num
+	AND a_member.id = a_hobbyboard.id
+	AND a_hobby.h_name = #{h_name}
+	]]>
+	</select>
+	<select id="viewDetails" resultType="HobbyBoardDto">
+	 <![CDATA[
+	SELECT a_hobbyboard.hb_num, a_hobby.h_name, a_member.nickname, a_hobbyboard.title, a_hobbyboard.content, a_hobbyboard.meetingplace, a_hobbyboard.meetingtime
+	FROM a_hobbyboard, a_hobby, a_member
+	WHERE a_hobby.h_num = a_hobbyboard.h_num
+	AND a_member.id = a_hobbyboard.id
+	AND a_hobbyboard.hb_num = #{hb_num}
+	]]>
+	</select>
+	<insert id="registeredMatchingMember" parameterType="MatchingMemberDto">
+	<![CDATA[
+	INSERT INTO a_matchingmember(mm_num, id, hb_num, activestate)
+	VALUES ('MM'||mm_num.nextval, #{id}, #{hb_num}, 1)
+	]]>
+	</insert>
+	<insert id="hobbyOpening" parameterType="HobbyBoardEntity">
+	<![CDATA[
+	INSERT INTO a_hobbyboard(hb_num, h_num, id, title, content, meetingplace, meetingtime)
+	VALUES ('HB'||hb_num.nextval,#{h_num},#{id},#{title},#{content},#{meetingplace},#{meetingtime})
+	]]>
+	</insert>
+</mapper>
